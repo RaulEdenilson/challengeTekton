@@ -43,7 +43,6 @@ class CalculadoraControllerTest {
 
     @Test
     void testCalcular_Success() throws Exception {
-        // Arrange
         BigDecimal num1 = new BigDecimal("5");
         BigDecimal num2 = new BigDecimal("3");
         BigDecimal resultadoEsperado = new BigDecimal("10");
@@ -54,7 +53,6 @@ class CalculadoraControllerTest {
         request.setNum1(num1);
         request.setNum2(num2);
 
-        // Act & Assert
         mockMvc.perform(post("/api/calcular")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
