@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:15
+    container_name: challenge-postgres
+    environment:
+      POSTGRES_USER: challenge
+      POSTGRES_PASSWORD: challenge
+      POSTGRES_DB: challenge_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: challenge-tekton-api:latest
+    container_name: challenge-api
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/challenge_db
+      SPRING_DATASOURCE_USERNAME: challenge
+      SPRING_DATASOURCE_PASSWORD: challenge
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+volumes:
+  postgres_data:
